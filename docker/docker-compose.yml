@@ -1,0 +1,9 @@
+services:
+  itmo-web-lab3-container:
+    build:
+      context: itmo-web-lab3-container
+    volumes:
+      - "./packages:/opt/jboss/wildfly/standalone/deployments/"
+    ports:
+      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:9990:9990"
