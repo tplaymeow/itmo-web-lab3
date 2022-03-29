@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: t-guliamov
+  Date: 12.03.2022
+  Time: 03:46
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <h:outputStylesheet library="css" name="main-styles.css"/>
+    <h:outputScript library="js" name="Canvas.js"/>
+    <h:outputScript library="js" name="main.js"/>
+
+    <title>Лабораторная работа 3</title>
+</h:head>
+
+<h:body>
+    <script>
+        window.onload = () => {
+            const jsonString = JSON.stringify(${results.jsonList});
+            const results = JSON.parse(jsonString);
+            main(results, ${results.currentCoordinates.r});
+        }
+    </script>
+    <div class="horizontal-center-container">
+        <div class="main-container">
+            <div class="inline">
+                <div class="control-panel">
+                    <canvas id="canvas"></canvas>
+                </div>
+                <div class="control-panel" id="result">
+                    <h:outputText value="#{results.last.success == null
+                        ? 'Нажмите Calculate'
+                        : (results.last.success ? 'Попадание' : 'Промах')}"/>
+                </div>
+            </div>
+            <div class="inline">
+                <h:form>
+                    <div class="control-panel" id="controls">
+                        <p>Значение X:</p>
+                        <h:selectOneMenu id="x-input"
+                                         required="true"
+                                         requiredMessage="Введите значение X"
+                                         value="#{results.currentCoordinates.x}">
+                            <f:selectItem itemValue="-3" itemLabel="-3"/>
+                            <f:selectItem itemValue="-2" itemLabel="-2"/>
+                            <f:selectItem itemValue="-1" itemLabel="-1"/>
+                            <f:selectItem itemValue="0" itemLabel="0"/>
+                            <f:selectItem itemValue="1" itemLabel="1"/>
+                            <f:selectItem itemValue="2" itemLabel="2"/>
+                            <f:selectItem itemValue="3" itemLabel="3"/>
+                            <f:selectItem itemValue="4" itemLabel="4"/>
+                            <f:selectItem itemValue="5" itemLabel="5"/>
+                        </h:selectOneMenu>
+
+                        <p>Значение Y:</p>
+                        <h:inputText id="y-input"
+                                     required="true"
+                                     requiredMessage="Введите значение Y"
+                                     converterMessage="Допустимые значения от -5 до 5"
+                                     validatorMessage="Допустимые значения от -5 до 5"
+                                     value="#{results.currentCoordinates.y}">
+                            <f:validateDoubleRange minimum="-5" maximum="5"/>
+                        </h:inputText>
+                        <p><h:message for="y-input" id="y-input-msg"/></p>
+
+                        <p>Значение R: </p>
+                        <p:slider for="r-input"
+                                  minValue="1"
+                                  maxValue="4"
+                                  step="0.25"
+                                  onSlideEnd="updateCanvas(ui.value, #{results.jsonList})"/>
+                        <h:inputHidden id="r-input"
+                                       required="true"
+                                       requiredMessage="Введите значение R"
+                                       value="#{results.currentCoordinates.r}"/>
+                    </div>
+                    <div class="control-panel">
+                        <p:commandButton value="Calculate" action="#{results.process()}">
+                            <f:ajax execute="@form"
+                                    render="y-input-msg results-table"
+                                    oncomplete="updateCanvas(#{results.currentCoordinates.r}, #{results.jsonList})"/>
+                        </p:commandButton>
+                    </div>
+                    <p:remoteCommand name="processFromCanvas"
+                                     update="y-input-msg results-table msgs"
+                                     oncomplete="updateCanvas(#{results.currentCoordinates.r}, #{results.jsonList})"
+                                     action="#{results.processFromCanvas()}"/>
+
+                    <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true" widgetVar="msgsWidget" />
+                </h:form>
+            </div>
+        </div>
+
+        <div class="main-container">
+            <h:dataTable value="#{results.list}" var="result" id="results-table">
+                <h:column>
+                    <f:facet name="header">X</f:facet>
+                    <h:outputText value="#{result.coordinates.x}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Y</f:facet>
+                    <h:outputText value="#{result.coordinates.y}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">R</f:facet>
+                    <h:outputText value="#{result.coordinates.r}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Состояние</f:facet>
+                    <h:outputText value="#{result.success ? 'Попадание' : 'Промах'}"/>
+                </h:column>
+            </h:dataTable>
+        </div>
+    </div>
+</h:body>
+
+</html>

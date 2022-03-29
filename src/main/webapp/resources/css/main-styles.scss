@@ -1,0 +1,124 @@
+@mixin box-shadow {
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+@mixin border-colorize($color) {
+  border-color: $color;
+
+  &:hover {
+    border-color: lighten($color, 20%);
+  }
+}
+
+// - Constants
+$bg-color: #202225;
+$font-size: 16px;
+$border-radius: 10px;
+
+// - Main container
+$main-container-bg-color: #2f3136;
+
+// - Control panel
+$control-panel-bg-color: #36393f;
+$control-panel-padding: 10px;
+$control-panel-margin: 10px;
+$button-border-radius: 3px;
+$button-hover-transformY: 1px;
+$blue-button-color: #7289da;
+$gray-button-color: lighten(#36393f, 10%);
+$gray-button-outline-width: 1px;
+$gray-button-outline-color-unselected: #666666;
+$gray-button-outline-color-selected: darken(#43b581, 10%);
+
+html, body {
+  font-size: $font-size;
+  font-family: sans-serif;
+  background-color: $bg-color;
+}
+
+div.main-container {
+  background-color: $main-container-bg-color;
+  border-radius: $border-radius;
+  padding-top: $control-panel-padding;
+  padding-bottom: $control-panel-padding;
+  margin-bottom: $control-panel-margin;
+  @include box-shadow;
+
+  >table {
+    width: 100%;
+    border-collapse: collapse;
+
+    td, th { text-align: center }
+  }
+
+  div.control-panel {
+    background-color: $control-panel-bg-color;
+    border-radius: $border-radius;
+    padding: $control-panel-padding;
+    margin: $control-panel-margin;
+    @include box-shadow;
+
+    input[type="button"] {
+      border-radius: $button-border-radius;
+      width: 100%;
+      cursor: pointer;
+      @include box-shadow;
+
+      &.blue-button {
+        background-color: $blue-button-color;
+        border: solid $blue-button-color;
+      }
+
+      &.gray-button {
+        background-color: $gray-button-color;
+
+        &.selected {
+          border-width: $gray-button-outline-width;
+          border-style: solid;
+          @include border-colorize($gray-button-outline-color-selected)
+        }
+
+        &.unselected {
+          border-width: $gray-button-outline-width;
+          border-style: solid;
+          @include border-colorize($gray-button-outline-color-unselected)
+        }
+      }
+
+      &:hover {
+        transform: translateY($button-hover-transformY)
+      }
+
+      &:active {
+        transform: translateY(2 * $button-hover-transformY)
+      }
+    }
+
+    table {
+      width: 100%
+    }
+
+    .radio-container {
+      display: block;
+    }
+  }
+
+  div.inline {
+    vertical-align: middle
+  }
+
+  div.inline:not(:last-child) div.control-panel {
+    margin-right: 0
+  }
+}
+
+// - Helpers
+
+div.horizontal-center-container {
+  width: fit-content;
+  margin: auto;
+}
+
+div.inline {
+  display: inline-block;
+}
