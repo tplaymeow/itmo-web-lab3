@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+
+<h:head>
+    <meta name="viewport" content="width=device-width"/>
+    <f:metadata>
+        <f:viewAction action="#{results.updateChart()}" />
+    </f:metadata>
+    <title>Главная страница</title>
+</h:head>
+
+<h:body>
+    <div class="header">
+        <p>Гулямов Тимур Икромович</p>
+        <p>Группа P32102</p>
+        <p>Вариант 15601</p>
+    </div>
+    <h:outputStylesheet name="css/font.css"/>
+    <h:outputStylesheet name="css/styleSheet.css"/>
+
+    <div class="center-screen main-page">
+        <h:form>
+            <p:card style="width: 90%; height: 10%; margin-bottom: 10px">
+                <h:commandLink
+                        action="#{results.displayWelcomePage}"
+                        value="Welcome page"
+                        styleClass="r-link"/>
+            </p:card>
+        </h:form>
+
+        <p:card style="width: 90%; margin-bottom: 10px">
+            <div>
+                <canvas id="canvasON" width="600" height="600"/>
+                <h:outputScript id="chart" name="js/Chart.js"/>
+                <h:outputScript id="canvas" name="js/Canvas.js"/>
+
+            </div>
+            <div>
+                <h:form id="form1" styleClass="">
+                    <div class="input-container">
+                        <p:outputLabel
+                                for="x-input"
+                                value="X "
+                                style="font-family: Comfortaa-Bold"/>
+
+                        <p:spinner
+                                id="x-input"
+                                value="#{results.coordinates.x}"
+                                stepFactor="1.0"
+                                min="-5.0"
+                                max="5.0"
+                                converterMessage="ERROR Invalid format"
+                                requiredMessage="ERROR Invalid value"
+                                validatorMessage="ERROR Invalid value"
+                                size="1"/>
+
+                        <p:message
+                                id="x-input-error-message"
+                                for="x-input"/>
+                    </div>
+
+                    <div class="input-container">
+                        <p:outputLabel
+                                for="y-input"
+                                value="Y "
+                                style="font-family: Comfortaa-Bold"/>
+
+                        <h:inputText
+                                id="y-input"
+                                value="#{results.coordinates.y}"
+                                required="true"
+                                converterMessage="ERROR Invalid format"
+                                requiredMessage="ERROR Invalid value"
+                                validatorMessage="ERROR Invalid value"
+                                styleClass="y-input">
+                            <f:validateDoubleRange
+                                    minimum="-5"
+                                    maximum="5"/>
+                        </h:inputText>
+
+                        <p:message
+                                id="y-input-error-message"
+                                for="y-input"/>
+                    </div>
+
+                    <div class="input-container" >
+                        <div style="margin-bottom: 4px; margin-top: 4px;">
+                            <h:commandLink value="R = 1" styleClass="r-link">
+                                <f:ajax event="click" listener="#{results.updateRadius(1)}"/>
+                            </h:commandLink>
+                        </div>
+
+                        <div style="margin-bottom: 4px">
+                            <h:commandLink value="R = 2" styleClass="r-link">
+                                <f:ajax event="click" listener="#{results.updateRadius(2)}"/>
+                            </h:commandLink>
+                        </div>
+
+                        <div style="margin-bottom: 4px">
+                            <h:commandLink value="R = 3" styleClass="r-link">
+                                <f:ajax event="click" listener="#{results.updateRadius(3)}"/>
+                            </h:commandLink>
+                        </div>
+
+                        <div style="margin-bottom: 4px">
+                            <h:commandLink value="R = 4" styleClass="r-link">
+                                <f:ajax event="click" listener="#{results.updateRadius(4)}"/>
+                            </h:commandLink>
+                        </div>
+
+                        <div style="margin-bottom: 4px">
+                            <h:commandLink value="R = 5" styleClass="r-link">
+                                <f:ajax event="click" listener="#{results.updateRadius(5)}"/>
+                            </h:commandLink>
+                        </div>
+                    </div>
+
+                    <p:commandButton
+                            action="#{results.calculate}"
+                            value="Проверить"
+                            update="x-input-error-message y-input-error-message results-table "/>
+                    <p:remoteCommand name="calculateClick" actionListener="#{results.calculateClick}"
+                                     update="x-input-error-message y-input-error-message results-table "/>
+                </h:form>
+            </div>
+        </p:card>
+
+        <p:card style="width: 90%">
+            <p:dataTable
+                    id="results-table"
+                    var="result"
+                    value="#{results.results}"
+                    style="height: 100%"
+                    scrollable="true"
+                    scrollHeight="30%">
+                <p:column headerText="X">
+                    <h:outputText value="#{result.x}" id="xval"/>
+                </p:column>
+
+                <p:column headerText="Y">
+                    <h:outputText value="#{result.y}"/>
+                </p:column>
+
+                <p:column headerText="R">
+                    <h:outputText value="#{result.r}"/>
+                </p:column>
+
+                <p:column headerText="Статус">
+                    <h:outputText value="#{result.success ? 'Попадание' : 'Промах'}"/>
+                </p:column>
+
+                <p:column headerText="Time">
+                    <h:outputText value="#{result.timestamp}">
+                        <f:convertDateTime type="localDateTime" pattern = "HH:mm:ss"/>
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+        </p:card>
+    </div>
+</h:body>
+
+</html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Стартовая страница</title>
+</h:head>
+
+<h:body onload="clockNineSeconds();">
+    <h:outputStylesheet name="css/font.css"/>
+    <h:outputStylesheet name="css/styleSheet.css"/>
+    <h:outputScript name="js/Clock.js"/>
+
+    <div class="header">
+        <p>Гулямов Тимур Икромович</p>
+        <p>Группа P32102</p>
+        <p>Вариант 15601</p>
+    </div>
+
+    <div class="center-screen">
+        <h:form>
+            <p:card >
+                <div>
+                    <span id="clock"/>
+                </div>
+                <h:commandLink value="Главная страница" action="#{welcome.displayResultsPage}"/>
+            </p:card>
+        </h:form>
+    </div>
+</h:body>
+
+</html>

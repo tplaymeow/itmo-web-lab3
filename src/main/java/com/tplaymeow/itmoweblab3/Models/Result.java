@@ -1,30 +1,16 @@
 package com.tplaymeow.itmoweblab3.Models;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-import javax.persistence.*;
+import java.time.LocalDateTime;
 
-@Entity
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 public class Result {
-    @Getter
-    @Setter
-    @OneToOne
-    private Coordinates coordinates;
-    @Getter
-    @Setter
-    private boolean success;
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    public Result(Coordinates coordinates, boolean success) {
-        this.coordinates = coordinates;
-        this.success = success;
-    }
+    private Double x;
+    private Double y;
+    private Integer r;
+    private Boolean success;
+    private LocalDateTime timestamp;
 }

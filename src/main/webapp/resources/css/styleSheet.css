@@ -1,0 +1,152 @@
+
+html {
+    min-height: 100%;
+}
+
+body {
+    background-color: #E1B1B1;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.header {
+    font-family: Comfortaa-Bold;
+}
+
+canvas {
+    border: 10px solid #E1B1B1;
+    border-radius: 4px;
+
+}
+
+.center-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+.center-screen.main-page {
+    width: 100%;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+ }
+
+.y-input {
+    font-family: Comfortaa-Light;
+    height: 35px;
+    width: 420px;
+    border: 1px solid #E1B1B1;
+    border-radius: 4px;
+}
+
+.r-link {
+    text-decoration: none;
+    color: #FCFFFA;
+    background: #E1B1B1;
+    border: 1px solid #E1B1B1;
+    border-radius: 4px;
+}
+
+body .ui-button {
+    border: 1px transparent;
+    background: #E1B1B1;
+}
+body .ui-button.ui-state-hover {
+    border: 1px solid #E1B1B1;
+    background: #FCFFFA;
+    color: #E1B1B1;
+}
+body .ui-button.ui-state-active {
+    border: 1px transparent;
+    background: #E1B1B1;
+}
+body .ui-button.ui-state-focus {
+    box-shadow: 0 0 0 0 transparent;
+}
+
+body .ui-spinner .ui-spinner-input {
+    text-align: center;
+    font-family: Comfortaa-Light;
+    width: 450px;
+    border: 1px solid #E1B1B1;
+    border-radius: 4px;
+}
+
+body .ui-spinner .ui-spinner-button.ui-button {
+    background: #E1B1B1;
+    color: #FCFFFA;
+    border: transparent;
+}
+
+.student-name {
+    margin: 1vh;
+}
+.student-name .student {
+    font-family: Comfortaa-Bold;
+    min-font-size: 1vh;
+    font-size: x-large;
+    color: #FCFFFA;
+
+    border-radius: 4px;
+    padding: 3px;
+    background: transparent;
+    width: auto;
+    height: auto;
+}
+.student-name .student:hover {
+    color: #E1B1B1;
+    background: #FCFFFA;
+}
+.student-name .group {
+    font-family: Comfortaa-Light;
+    color: #FCFFFA;
+    font-size: medium;
+    min-font-size: 0.5vh;
+}
+
+body .ui-datatable thead th {
+    text-align: center;
+}
+#results-table_head {
+    font-family: Comfortaa-Bold;
+    color: #545454;
+}
+
+#results-table_data {
+    font-family: Comfortaa-Light;
+    color: #545454;
+}
+
+.ui-datatable-frozenlayout-left {
+    width: 20%;
+}
+
+.ui-datatable-frozenlayout-right {
+    width: 80%;
+}
+
+body .ui-datatable .ui-datatable-data tr:hover {
+    color: #FCFFFA;
+    background: #E1B1B1;
+}
+
+.ui-menu {
+    width: 300px;
+    text-align: center;
+    font-family: Comfortaa-Bold;
+}
+.ui-menu .ui-menu-list .ui-menuitem {
+    font-family: Comfortaa-Light;
+    min-font-size: 0.5vh;
+    font-size: small;
+}
+body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover
+{
+    background: transparent;
+}
+body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-menuitem-text {
+    color: #E1B1B1;
+}
