@@ -1,0 +1,101 @@
+<project name="itmo-web-lab3" default="compile" basedir=".">
+    <property file="build.properties"/>
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="*.jar"/>
+    </path>
+
+    <path id="classpath.test">
+        <fileset dir="${lib.test.dir}" includes="*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${build.dir}"/>
+
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false" encoding="UTF-8"
+               source="${source.compatibility}" target="${target.compatibility}">
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+
+    <target name="compile-test" depends="compile">
+        <javac srcdir="${src.test.dir}" destdir="${build.dir}" includeantruntime="false" encoding="UTF-8"
+               source="${source.compatibility}" target="${target.compatibility}">
+            <classpath refid="classpath"/>
+            <classpath refid="classpath.test"/>
+        </javac>
+    </target>
+
+    <target name="build" depends="compile">
+        <mkdir dir="${dist.dir}"/>
+
+        <war destfile="${dist.dir}/${app.name}.war" webxml="${web.dir}/WEB-INF/web.xml">
+            <fileset dir="${web.dir}">
+                <exclude name="WEB-INF/web.xml"/>
+            </fileset>
+
+            <classes dir="${build.dir}"/>
+            <lib dir="${lib.dir}"/>
+        </war>
+    </target>
+
+    <target name="test" depends="compile-test">
+        <mkdir dir="${build.dir}/test" />
+
+        <junit printsummary="on" showoutput="true" haltonfailure="true">
+            <classpath>
+                <path refid="classpath"/>
+                <path refid="classpath.test"/>
+                <pathelement path="${build.dir}" />
+            </classpath>
+
+            <batchtest>
+                <fileset dir="${src.test.dir}" includes="**/*Tests.java" />
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="music" depends="build">
+        <exec executable="afplay">
+            <arg value="antresources/song.mp3"/>
+        </exec>
+    </target>
+
+    <target name="clean-alt">
+        <delete dir="${src.alt.dir}"/>
+        <delete dir="${web.alt.dir}"/>
+    </target>
+
+    <target name="alt" depends="clean-alt">
+        <copy todir="${src.alt.dir}">
+            <fileset dir="${src.dir}" />
+        </copy>
+        <copy todir="${web.alt.dir}">
+            <fileset dir="${web.dir}" />
+        </copy>
+
+        <replaceregexp match="ResultsRepositoryImpl" replace="Alt_ResultsRepositoryImpl" byline="true">
+            <fileset dir="${src.alt.dir}">
+                <include name="**/*.java" />
+            </fileset>
+        </replaceregexp>
+        <move todir="${src.alt.dir}">
+            <fileset dir="${src.alt.dir}" includes="">
+                <include name="**/ResultsRepositoryImpl.java" />
+            </fileset>
+            <mapper type="glob" from="ResultsRepositoryImpl.java" to="Alt_ResultsRepositoryImpl.java" />
+        </move>
+
+<!--        <mkdir dir="${build.dir}"/>-->
+
+<!--        <javac srcdir="${src.alt.dir}" destdir="${build.dir}" includeantruntime="false" encoding="UTF-8"-->
+<!--               source="${source.compatibility}" target="${target.compatibility}">-->
+<!--            <classpath refid="classpath"/>-->
+<!--        </javac>-->
+    </target>
+</project>

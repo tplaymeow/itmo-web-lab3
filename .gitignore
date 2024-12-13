@@ -96,3 +96,4 @@ derby.log
 
 # Deploying
 *.war.*
+/alt/
