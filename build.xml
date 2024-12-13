@@ -41,6 +41,11 @@
 
             <classes dir="${build.dir}"/>
             <lib dir="${lib.dir}"/>
+
+            <manifest>
+                <attribute name="Manifest-Version" value="1.0" />
+                <attribute name="Created-By" value="tplaymeow" />
+            </manifest>
         </war>
     </target>
 
@@ -61,6 +66,8 @@
     </target>
 
     <target name="music" depends="build">
+        <echo>Playing song...</echo>
+
         <exec executable="afplay">
             <arg value="antresources/song.mp3"/>
         </exec>
@@ -85,17 +92,31 @@
             </fileset>
         </replaceregexp>
         <move todir="${src.alt.dir}">
-            <fileset dir="${src.alt.dir}" includes="">
+            <fileset dir="${src.alt.dir}">
                 <include name="**/ResultsRepositoryImpl.java" />
             </fileset>
-            <mapper type="glob" from="ResultsRepositoryImpl.java" to="Alt_ResultsRepositoryImpl.java" />
+            <mapper type="regexp" from="(.*)/ResultsRepositoryImpl.java" to="\1/Alt_ResultsRepositoryImpl.java" />
         </move>
 
-<!--        <mkdir dir="${build.dir}"/>-->
+        <mkdir dir="${build.dir}"/>
 
-<!--        <javac srcdir="${src.alt.dir}" destdir="${build.dir}" includeantruntime="false" encoding="UTF-8"-->
-<!--               source="${source.compatibility}" target="${target.compatibility}">-->
-<!--            <classpath refid="classpath"/>-->
-<!--        </javac>-->
+        <javac srcdir="${src.alt.dir}" destdir="${build.dir}" includeantruntime="false" encoding="UTF-8"
+               source="${source.compatibility}" target="${target.compatibility}">
+            <classpath refid="classpath"/>
+        </javac>
+
+        <war destfile="${dist.dir}/${app.alt.name}.war" webxml="${web.alt.dir}/WEB-INF/web.xml">
+            <fileset dir="${web.alt.dir}">
+                <exclude name="WEB-INF/web.xml"/>
+            </fileset>
+
+            <classes dir="${build.dir}"/>
+            <lib dir="${lib.dir}"/>
+
+            <manifest>
+                <attribute name="Manifest-Version" value="1.0" />
+                <attribute name="Created-By" value="tplaymeow.alt" />
+            </manifest>
+        </war>
     </target>
 </project>
